@@ -1,10 +1,10 @@
-# 🚪 Sistema de Controle de Acesso - Catraca
+Sistema de Controle de Acesso - Catraca
 
 Este é um projeto acadêmico desenvolvido para realizar o controle e gerenciamento de usuários de um sistema de catraca. A aplicação integra uma **API REST** backend em Python/Flask, uma **Interface Gráfica (GUI)** desktop em Tkinter, e uma **simulação de hardware com ESP32 no Wokwi** para autenticação e liberação de acesso.
 
 ---
 
-## 📌 Funcionalidades
+Funcionalidades
 
 - **Gerenciamento de Usuários (GUI Desktop):**
   - Cadastrar novos usuários com Nome e CPF (com verificação de duplicidade de CPF).
@@ -20,7 +20,7 @@ Este é um projeto acadêmico desenvolvido para realizar o controle e gerenciame
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+Tecnologias Utilizadas
 
 - **Linguagem:** Python 3.x
 - **Backend / API:** [Flask](https://flask.palletsprojects.com/)
@@ -32,7 +32,7 @@ Este é um projeto acadêmico desenvolvido para realizar o controle e gerenciame
 
 ---
 
-## 📁 Estrutura do Projeto
+Estrutura do Projeto
 
 ```text
 .
@@ -40,5 +40,6 @@ Este é um projeto acadêmico desenvolvido para realizar o controle e gerenciame
 ├── cadastro_gui.py   # Interface Gráfica (Cliente Tkinter)
 ├── usuarios.json     # Base de dados local em formato JSON
 └── README.md         # Documentação do projeto
+```
 🌐 Integração Backend & ESP32 (Wokwi + Ngrok)
 Como o simulador Wokwi executa na nuvem, ele não consegue se conectar diretamente ao endereço local http://127.0.0.1:5000 da sua máquina. Para resolver isso, utilizamos o Ngrok para criar um túnel seguro de acesso público à API local.
