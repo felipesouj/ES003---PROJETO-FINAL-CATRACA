@@ -27,7 +27,7 @@ Tecnologias Utilizadas
 - **Frontend / Interface Desktop:** [Tkinter](https://docs.python.org/3/library/tkinter.html)
 - **Requisições HTTP:** [Requests](https://requests.readthedocs.io/)
 - **Simulação de Hardware:** [Wokwi](https://wokwi.com/) (ESP32)
-- **Tunnelling / Exposição de API:** [Ngrok](https://ngrok.com/) (para expor o servidor local para o Wokwi)
+- **Tunnelling / Exposição de API:** [Ngrok](cloudflared tunnel --url http://localhost:5000) (para expor o servidor local para o Wokwi)
 - **Armazenamento:** JSON
 
 ---
