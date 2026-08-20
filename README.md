@@ -129,7 +129,22 @@ Esse endereço `https://....trycloudflare.com` é o **link público** que aponta
 
 > ⚠️ Mantenha esse terminal aberto enquanto estiver testando no Wokwi. Se fechar, o túnel cai e o link para de funcionar.
 
-### Passo 4 — Colocar o link no código do ESP32 (Wokwi)
+### Passo 4 — Extrair e subir os arquivos da simulação no Wokwi
+
+Os arquivos da simulação (código do ESP32, `diagram.json`, etc.) estão dentro do arquivo compactado **`catraca_final.py.rar`**. Ao extrair esse `.rar`, será criada uma pasta chamada **`Catraca Copy (2)`** — é o conteúdo **de dentro dessa pasta** que precisa ser enviado para o projeto no Wokwi.
+
+1. Extraia o `catraca_final.py.rar` (com WinRAR, 7-Zip, etc.) em qualquer local do seu computador.
+2. Entre na pasta **`Catraca Copy (2)`** que foi gerada.
+3. Abra (ou crie) o seu projeto no [Wokwi](https://wokwi.com/).
+4. No painel de arquivos do Wokwi (barra lateral esquerda, ícone de arquivos), use a opção de **upload/importar arquivo** e envie **todos os arquivos que estão dentro da pasta `Catraca Copy (2)`** (o `.ino`/`sketch.cpp`, o `diagram.json` e quaisquer outros arquivos presentes ali).
+
+   > Não envie a pasta em si nem o `.rar` — o Wokwi precisa dos arquivos individuais que estão dentro da pasta.
+
+5. Confirme que o `diagram.json` foi carregado corretamente (ele monta a ligação do ESP32 no simulador) e que o código-fonte apareceu no editor do Wokwi.
+
+Só depois de subir esses arquivos é que você vai editar o link da API dentro do código, conforme o próximo passo.
+
+### Passo 5 — Colocar o link no código do ESP32 (Wokwi)
 
 1. Abra o seu projeto no [Wokwi](https://wokwi.com/).
 2. No arquivo de código do ESP32 (`.ino` / `sketch.cpp`), localize a variável/constante onde a URL da API é definida — normalmente algo como:
@@ -147,7 +162,7 @@ Esse endereço `https://....trycloudflare.com` é o **link público** que aponta
 
 5. Salve e clique em **Play/Start Simulation** no Wokwi.
 
-### Passo 5 — Testar
+### Passo 6 — Testar
 
 - Digite/simule uma matrícula (CPF ou ID) no ESP32 simulado.
 - A requisição deve chegar na sua API local (você verá o log no terminal do `catraca.py`).
@@ -174,3 +189,20 @@ Esse endereço `https://....trycloudflare.com` é o **link público** que aponta
 
 ---
 
+## ⚠️ Observação importante sobre o código atual
+
+A interface gráfica (`cadastro_gui.py`) chama `requests.delete(f"{API_URL}/usuarios/{cpf}")` no botão **Excluir**, mas a API (`catraca.py`) **não possui uma rota `DELETE /usuarios/<cpf>` implementada**. Isso vai gerar erro (405 - Method Not Allowed) ao clicar em "Excluir". Se quiser que essa função funcione, é necessário adicionar essa rota no `catraca.py`, por exemplo:
+
+```python
+@catraca.route("/usuarios/<cpf>", methods=["DELETE"])
+def excluir(cpf):
+    usuarios = carregar_usuarios()
+    for i, usuario in enumerate(usuarios):
+        if usuario["cpf"] == cpf:
+            usuarios.pop(i)
+            salvar_usuarios(usuarios)
+            return jsonify({"mensagem": "Usuário excluído com sucesso!"})
+    return jsonify({"erro": "Usuário não encontrado"}), 404
+```
+
+Posso adicionar essa rota para você se quiser — é só pedir.
