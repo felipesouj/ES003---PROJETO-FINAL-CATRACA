@@ -189,20 +189,3 @@ Só depois de subir esses arquivos é que você vai editar o link da API dentro 
 
 ---
 
-## ⚠️ Observação importante sobre o código atual
-
-A interface gráfica (`cadastro_gui.py`) chama `requests.delete(f"{API_URL}/usuarios/{cpf}")` no botão **Excluir**, mas a API (`catraca.py`) **não possui uma rota `DELETE /usuarios/<cpf>` implementada**. Isso vai gerar erro (405 - Method Not Allowed) ao clicar em "Excluir". Se quiser que essa função funcione, é necessário adicionar essa rota no `catraca.py`, por exemplo:
-
-```python
-@catraca.route("/usuarios/<cpf>", methods=["DELETE"])
-def excluir(cpf):
-    usuarios = carregar_usuarios()
-    for i, usuario in enumerate(usuarios):
-        if usuario["cpf"] == cpf:
-            usuarios.pop(i)
-            salvar_usuarios(usuarios)
-            return jsonify({"mensagem": "Usuário excluído com sucesso!"})
-    return jsonify({"erro": "Usuário não encontrado"}), 404
-```
-
-Posso adicionar essa rota para você se quiser — é só pedir.
